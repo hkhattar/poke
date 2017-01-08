@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>success</title>
+</head>
+<body>
+
+<a href="/logout">Logout</a>
+<h1>Welcome, {{request.session.name}}</h1>
+<p> {{count}} people poked you</p>
+
+{% for user in people_poked_you %}
+	{{user.name}} poked you <br>
+{% endfor %}
+
+
+<h1>People you may want to poke</h1>
+
+
+<table>
+	<thead>
+		<th>Name</th>
+		<th>Alias</th>
+		<th>Email address</th>
+		<th>Poke History</th>
+		<th>Action</th>
+		
+	</thead>
+	{%for user in users%}
+	<tbody>
+		<td>{{user.name}}</td>
+		<td>{{user.alias}}</td>
+		<td>{{user.email}}</td>
+		<td>{{user.poke.all|length}} pokes
+			{%for u in user.poke.all%}
+			{%endfor%}
+			
+		</td>
+		<td>
+			<form action="/add_poke/{{user.id}}" method="post"> 
+				{% csrf_token %}
+				<input type="submit" name="submit" value="Poke">	
+
+			</form>
+		</td>
+	</tbody>
+	{%endfor%}
+</table>
+
+</body>
+</html>
